@@ -6,6 +6,7 @@ import (
 
 	"github.com/benji-bou/chantools"
 	"github.com/benji-bou/datapipe"
+	"github.com/k0kubun/pp/v3"
 )
 
 func Output[T any]() datapipe.Outputable[T] {
@@ -18,7 +19,7 @@ func Output[T any]() datapipe.Outputable[T] {
 					if !ok {
 						return
 					}
-					fmt.Println(data)
+					pp.Println(data)
 				case err, ok := <-cie:
 					if !ok {
 						return
