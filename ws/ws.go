@@ -30,7 +30,7 @@ func Input(cl *wsocket.Socket) datapipe.Inputable[[]byte] {
 
 			}
 		}
-	}, 255)
+	}, 1000)
 	return datapipe.NewInput(ci, cerr)
 }
 

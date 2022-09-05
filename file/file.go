@@ -14,17 +14,13 @@ import (
 
 func Input(path string, chunkLength int) datapipe.Inputable[[]byte] {
 	return datapipe.Input[[]byte](func() (<-chan []byte, <-chan error) {
-		data := make(chan []byte, 3)
-		err := make(chan error)
-		go func(path string, data chan<- []byte, err chan<- error) {
-			defer close(data)
 
+		return chantools.ChanBuffErrGenerator(func(data chan<- []byte, err chan<- error) {
 			f, e := os.Open(path)
 			if e != nil {
 				err <- e
 				return
 			}
-
 			defer f.Close()
 			r := bufio.NewReader(f)
 			for {
@@ -43,10 +39,7 @@ func Input(path string, chunkLength int) datapipe.Inputable[[]byte] {
 				}
 				data <- buf
 			}
-
-		}(path, data, err)
-		return data, nil
-
+		}, 1000)
 	})
 }
 
