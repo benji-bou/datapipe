@@ -8,7 +8,7 @@ import (
 	"github.com/benji-bou/wsocket"
 )
 
-func Input(cl *wsocket.Socket) datapipe.Inputable[[]byte] {
+func Input(cl *wsocket.Socket) datapipe.Input[[]byte] {
 	ci, cerr := chantools.ChanBuffErrGenerator(func(c chan<- []byte, err chan<- error) {
 	L:
 		for {
@@ -34,7 +34,7 @@ func Input(cl *wsocket.Socket) datapipe.Inputable[[]byte] {
 	return datapipe.NewInput(ci, cerr)
 }
 
-func Output(cl *wsocket.Socket) datapipe.Outputable[[]byte] {
+func Output(cl *wsocket.Socket) datapipe.Output[[]byte] {
 	return datapipe.NewOutput(func(input <-chan []byte, err <-chan error) <-chan error {
 		errWs := chantools.ChanGenerator(func(c chan<- error) {
 			for i := range input {

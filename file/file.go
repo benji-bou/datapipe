@@ -12,7 +12,7 @@ import (
 	"github.com/benji-bou/datapipe"
 )
 
-func Input(path string, chunkLength int) datapipe.Inputable[[]byte] {
+func Input(path string, chunkLength int) datapipe.Input[[]byte] {
 	return datapipe.Input[[]byte](func() (<-chan []byte, <-chan error) {
 
 		return chantools.ChanBuffErrGenerator(func(data chan<- []byte, err chan<- error) {
@@ -43,7 +43,7 @@ func Input(path string, chunkLength int) datapipe.Inputable[[]byte] {
 	})
 }
 
-func DirInput(path string, regexFilePath string, chunkLength int) datapipe.Inputable[[]byte] {
+func DirInput(path string, regexFilePath string, chunkLength int) datapipe.Input[[]byte] {
 	return datapipe.Input[[]byte](func() (<-chan []byte, <-chan error) {
 		return chantools.ChanErrGenerator(func(c chan<- []byte, e chan<- error) {
 			err := filepath.Walk(path, func(path string, info fs.FileInfo, err error) error {
